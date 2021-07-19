@@ -51,6 +51,18 @@ while key != ESC:
     
     snake.insert(0, (y, x)) #appending list
 
+    #checking if snake collides with game border (game over)
+    if y == 0: break
+    if y == 19: break
+    if x == 0: break
+    if x == 59: break
+
+    #check if snake collides with itself itself (game over)
+    if snake [0] in snake[1:]:break
+
+    
+
+
     #snake's body/appearance
     for coord in snake:
         window.addch(coord[0], coord[1], '*') #adding character at coordinates to place snake's body parts (coord[0] is the Y coord, coord[1] is the x coord, * will be the visible character of the snake's body)
