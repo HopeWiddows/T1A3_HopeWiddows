@@ -36,7 +36,20 @@ while key != ESC:
     if key not in [curses.KEY_LEFT, curses.KEY_RIGHT, curses.KEY_UP, curses.KEY_DOWN, ESC]:
         key = prev_key
 
- 
+    #calculating next coordinates for snake's movements
+    y = snake [0][0]
+    x = snake [0][1]
+
+    if key == curses.KEY_DOWN: 
+        y += 1
+    if key == curses.KEY_UP:
+        y -= 1
+    if key == curses.KEY_RIGHT:
+        x += 1
+    if key == curses.KEY_LEFT: 
+        x -= 1
+    
+    snake.insert(0, (y, x)) #appending list
 
     #snake's body/appearance
     for coord in snake:
