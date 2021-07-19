@@ -51,18 +51,10 @@ while key != ESC:
     
     snake.insert(0, (y, x)) #appending list
 
-    #checking if snake collides with game border (game over)
-    if y == 0: break
-    if y == 19: break
-    if x == 0: break
-    if x == 59: break
-
-    #check if snake collides with itself itself (game over)
-    if snake [0] in snake[1:]:break
 
     #check if snake collides with fruit, if true, then eats fruit and adds to body, generates new fruit on gameboard
     if snake[0] == fruit:
-        score += 1
+        score += 5
         fruit = ()
         while fruit == ():
             fruit = (randint(1, 18), randint(1,58)) # place fruit randomly on gameboard (1, 18) = y axis, (1,58) = x axis
@@ -80,6 +72,35 @@ while key != ESC:
     
     #fruit's appearance
     window.addch(snake[0][0], snake[0][1], '*')
+
+    #checking if snake collides with game border (game over)
+    if y == 0: 
+        message = "You hit the wall! Game over!"
+        window.addstr(9, 5, message)
+        window.nodelay(0)
+        window.getch()
+    if y == 19: 
+        message = "You hit the wall! Game over!"
+        window.addstr(9, 5, message)
+        window.nodelay(0)
+        window.getch()
+    if x == 0: 
+        message = "You hit the wall! Game over!"
+        window.addstr(9, 5, message)
+        window.nodelay(0)
+        window.getch()
+    if x == 59:
+        message = "You hit the wall! Game over!"
+        window.addstr(9, 5, message)
+        window.nodelay(0)
+        window.getch()
+
+    #check if snake collides with itself itself (game over)
+    if snake [0] in snake[1:]: 
+        message = "You can't eat yourself! Game Over!"
+        window.addstr(9, 5, message)
+        window.nodelay(0)
+        window.getch()
 
     curses.endwin()
     print(f"Final score = {score}")#printing final score on screen
