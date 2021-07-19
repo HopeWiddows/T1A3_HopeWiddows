@@ -1,5 +1,5 @@
 import curses #part of Python standard library, enables keyboard handling and screen painting in text based terminal 
-from random import randint #
+#from random import randint 
 
 #Initialisation and setting up window
 curses.initscr() # initializes screen
@@ -11,63 +11,25 @@ window.border(0) #setting up a window border for the game
 window.nodelay(1) #sets it so the game is not waiting for further input before loop continues (allowing the "animation" of snake movement)
 
 
+#Snake and Fruit
+snake = [(4,10), (4, 9), (4, 8)] #using a list and tuple to create snake
+fruit = (10, 20)
 
 
 
+#Snake Game Logic
 
-# #main game 
-# def main(stdscr):
-#      #screen setup
-#     curses.curs_set(0) #disabling the blinking cursor
-#     stdscr.nodelay(1)
-#     stdscr.timeout(150)
-#     screen_height, screen_width = stdscr.getmaxyx() #allowing screen height and width
-#     box = [[3,3], [screen_height-3, screen_width-3]] #setting up a box with coordinates for game screen
-#     stdcsr.keypad(1)
-#     #textpad.rectangle(stdscr, box[0][0], box[0][1], box[1][0], box[1][1]) #setting up the rectangle for game play on screen
+score = 0 #game score
+
+while True:
+    event = window.getch()
+
+    #snake's body/appearance
+    for coord in snake:
+        window.addch(coord[0], coord[1], '*') #adding character at coordinates to place snake's body parts (coord[0] is the Y coord, coord[1] is the x coord, * will be the visible character of the snake's body)
     
-#     #stdscr.refresh() #will update screen with any new changes
-#     #stdscr.getch() #waits for user input before exiting
+    #fruit's appearance
+    window.addch(fruit[0], fruit[1], '#')
 
-#     #initial state of snake
-#     snake_body = [[screen_height//2, screen_width//2+1], [screen_height//2, screen_width//2], [screen_height//2, screen_width//2-1]] #snake starts with three parts to it's body and uses x axis to startin center of game screen
-#     direction = curses.KEY_RIGHT #snake will start moving right at game start
-
-#     for y,x in snake_body:
-#         stdscr.addstr(y, x, '#')
-
-#     #starting game loop using user key input
-#     while 1:
-
-#         keypad= stdscr.getch()
-
-#         if keypad in [curses.KEY_RIGHT, curses.KEY_LEFT, curses.KEY_UP, curses.KEY_DOWN]:
-#             direction = keypad
-
-#         #starting to move snake using user key input (right, left, up, down keys)
-#         snake_head = snake_body[0]
-
-#         #using x and y values to change parts of the snake with user input keys
-#         if direction == curses.KEY_RIGHT:
-#             new_head = [snake_head[0], snake_head[1]+1]
-#         elif direction == curses.KEY_LEFT:
-#             new_head = [snake_head[0], snake_head[1]-1]
-#         elif direction == curses.KEY_UP:
-#             new_head = [snake_head[0]-1, snake_head[1]]
-#         elif direction == curses.KEY_DOWN:
-#             new_head = [snake_head[0]+1, snake_head[1]]
-    
-#     #inserting the "new head" at new postion
-#     snake_body.insert(0, new_head)
-#     #at the new postion, print the '#'
-#     stdscr.addstr(new_head[0], new_head[1], '#')
-#     #remove previous portion of the snake from view so animation looks correct and as though snake is moving
-#     stdscr.addstr(snake_body[-1][0], snake_body[-1][1], ' ')
-#     snake_body.pop()
-
-#     stdscr.refresh() #updates screen 
-#     #stdscr.getch() #waits for user input before exiting
-
-# curses.wrapper(main)
-
-
+    curses.endwin()
+    print(f"Final score = {score}")
