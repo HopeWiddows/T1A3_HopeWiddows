@@ -12,7 +12,7 @@ window.nodelay(1) #sets it so the game is not waiting for further input before l
 
 
 #Snake and Fruit
-snake = [(4,10), (4, 9), (4, 8)] #using a list and tuple to create snake
+snake = [(4, 10), (4, 9), (4, 8)] #using a list and tuple to create snake
 fruit = (10, 20)
 
 
@@ -21,8 +21,22 @@ fruit = (10, 20)
 
 score = 0 #game score
 
-while True:
+ESC = 27
+key = curses.KEY_RIGHT
+
+while key != ESC:
+    window.addstr(0, 2, 'Score ' + str(score) + ' ') #adding score information to the top of the screen
+    window.timeout(150 - (len(snake)) // 5 + len(snake)//10 % 120) #increasing speed of snake depending on it's length
+
+    prev_key = key #starting game state, if no key pressed, loop continues as is
     event = window.getch()
+    key = event if event != -1 else prev_key 
+
+    #checking if any key input has been made
+    if key not in [curses.KEY_LEFT, curses.KEY_RIGHT, curses.KEY_UP, curses.KEY_DOWN, ESC]:
+        key = prev_key
+
+ 
 
     #snake's body/appearance
     for coord in snake:
@@ -32,4 +46,4 @@ while True:
     window.addch(fruit[0], fruit[1], '#')
 
     curses.endwin()
-    print(f"Final score = {score}")
+    print(f"Final score = {score}")#printing final score on screen
