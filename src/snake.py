@@ -1,5 +1,5 @@
 import curses #part of Python standard library, enables keyboard handling and screen painting in text based terminal 
-#from random import randint 
+from random import randint #allowing for random generation of items in game
 
 #Initialisation and setting up window
 curses.initscr() # initializes screen
@@ -60,15 +60,26 @@ while key != ESC:
     #check if snake collides with itself itself (game over)
     if snake [0] in snake[1:]:break
 
-    
-
+    #check if snake collides with fruit, if true, then eats fruit and adds to body, generates new fruit on gameboard
+    if snake[0] == fruit:
+        score += 1
+        fruit = ()
+        while fruit == ():
+            fruit = (randint(1, 18), randint(1,58)) # place fruit randomly on gameboard (1, 18) = y axis, (1,58) = x axis
+            if fruit in snake: #checking if fruit's coord is within the snakes body, if yes repeat to place randomly elsewhere
+                fruit = ()
+        window.addch(fruit[0], fruit[1], '#') #prints new fruit
+    #moving the snake
+    else:
+        snaketail = snake.pop()
+        window.addch(snaketail[0], snaketail[1], ' ')
 
     #snake's body/appearance
-    for coord in snake:
-        window.addch(coord[0], coord[1], '*') #adding character at coordinates to place snake's body parts (coord[0] is the Y coord, coord[1] is the x coord, * will be the visible character of the snake's body)
+    for snakebody in snake:
+        window.addch(snakebody[0], snakebody[1], '*') #adding character at coordinates to place snake's body parts (coord[0] is the Y coord, coord[1] is the x coord, * will be the visible character of the snake's body)
     
     #fruit's appearance
-    window.addch(fruit[0], fruit[1], '#')
+    window.addch(snake[0][0], snake[0][1], '*')
 
     curses.endwin()
     print(f"Final score = {score}")#printing final score on screen
