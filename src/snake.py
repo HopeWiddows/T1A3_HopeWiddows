@@ -20,7 +20,7 @@ def game_hard():
     snake = [(4, 10), (4, 9), (4, 8)] #using a list and tuple to create snake at initial coordinates
     fruit = (10, 20) #fruit initial coordinates
 
-    window.addch(fruit[0], fruit[1], '*')  #prints the fruit
+    window.addch(fruit[0], fruit[1], '#')  #prints the fruit
 
     #Snake Game Logic
     ESC = 27
