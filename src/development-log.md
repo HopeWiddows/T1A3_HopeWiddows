@@ -18,3 +18,7 @@
 <li> Bash scripting
 <li> Compile and triple check all code and documentation for submmission
 <li> Submit!
+
+# Prodution Log - Thursday 15/07/2021
+
+![Production Log .07.21](images/Production-log-update-15.07.21.png)
