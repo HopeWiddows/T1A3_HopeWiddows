@@ -11,28 +11,36 @@ window.border(0) #setting up a window border for the game
 window.nodelay(1) #sets it so the game is not waiting for further input before loop continues (allowing the "animation" of snake movement)
 
 
-#Snake and Fruit
-snake = [(4, 10), (4, 9), (4, 8)] #using a list and tuple to create snake
-fruit = (10, 20)
-
-
-
-#Snake Game Logic
-
+key = curses.KEY_RIGHT #initialising values
 score = 0 #game score
 
+#Snake and Fruit
+snake = [(4, 10), (4, 9), (4, 8)] #using a list and tuple to create snake at initial coordinates
+fruit = (10, 20) #fruit initial coordinates
+
+window.addch(fruit[0], fruit[1], '*')  #prints the fruit
+
+#Snake Game Logic
 ESC = 27
-key = curses.KEY_RIGHT
 
 while key != ESC:
-    window.addstr(0, 2, 'Score ' + str(score) + ' ') #adding score information to the top of the screen
+    window.border(0)
+    window.addstr(0, 2, 'Score: ' + str(score) + ' ') #adding score information to the top of the screen
+    window.addstr(0, 23, ' Python Python ')  #adding game title to screen
     window.timeout(150 - (len(snake)) // 5 + len(snake)//10 % 120) #increasing speed of snake depending on it's length
 
     prev_key = key #starting game state, if no key pressed, loop continues as is
     event = window.getch()
-    key = event if event != -1 else prev_key 
+    key = key if event == -1 else event
 
-    #checking if any key input has been made
+    if key == ord(' '):  #enable using space bar to pause game, press space again to continue
+        key = -1
+        while key != ord(' '):
+            key = window.getch()
+        key = prev_key
+        continue
+
+    #checking if a valid input key has been made
     if key not in [curses.KEY_LEFT, curses.KEY_RIGHT, curses.KEY_UP, curses.KEY_DOWN, ESC]:
         key = prev_key
 
@@ -76,31 +84,55 @@ while key != ESC:
     #checking if snake collides with game border (game over)
     if y == 0: 
         message = "You hit the wall! Game over!"
+        message_score = (f"Final Score: {score}")
         window.addstr(9, 5, message)
+        window.addstr(10, 5, message_score)
         window.nodelay(0)
         window.getch()
+        break
     if y == 19: 
         message = "You hit the wall! Game over!"
+        message_score = (f"Final Score: {score}")
         window.addstr(9, 5, message)
+        window.addstr(10, 5, message_score)
         window.nodelay(0)
         window.getch()
+        break
     if x == 0: 
         message = "You hit the wall! Game over!"
+        message_score = (f"Final Score: {score}")
         window.addstr(9, 5, message)
+        window.addstr(10, 5, message_score)
         window.nodelay(0)
         window.getch()
+        break
     if x == 59:
         message = "You hit the wall! Game over!"
+        message_score = (f"Final Score: {score}")
         window.addstr(9, 5, message)
+        window.addstr(10, 5, message_score)
         window.nodelay(0)
         window.getch()
+        break
 
     #check if snake collides with itself itself (game over)
     if snake [0] in snake[1:]: 
         message = "You can't eat yourself! Game Over!"
+        message_score = (f"Final Score: {score}")
         window.addstr(9, 5, message)
+        window.addstr(10, 5, message_score)
         window.nodelay(0)
         window.getch()
+        break
+
 
     curses.endwin()
     print(f"Final score = {score}")#printing final score on screen
+
+
+
+     # If snake crosses the boundaries, make it enter from the other side
+    # if snake[0][0] == 0: snake[0][0] = 18
+    # if snake[0][1] == 0: snake[0][1] = 58
+    # if snake[0][0] == 19: snake[0][0] = 1
+    # if snake[0][1] == 59: snake[0][1] = 1
